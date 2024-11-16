@@ -189,6 +189,10 @@ function generateBonusSelects2(count) {
                  <option value="60">3% do szansy na podwójnie efektywny bonus za ulepszenie treningu</option>
                  <option value="61">3% większa szansa na boski atrybut przewodni podczas walk PvM</option>
                  <option value="62">5% większa szansa na boski atrybut przewodni podczas walk PvM</option>
+                 <option value="63">5% do wszystkich statystyk</option>
+                 <option value="64">10% % do wszystkich statystyk</option>
+                 <option value="65">4% większa szansa na pomyślne zebranie zasobu</option>
+                 <option value="66">6% większa szansa na pomyślne zebranie zasobu</option>
                  `;
   let selects = '';
   for (let i = 0; i < count; i++) {
