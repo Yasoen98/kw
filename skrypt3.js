@@ -2,6 +2,7 @@ var blogo_helper_wait = 10000;
 var blogo_helper_STOP = true;
 var wiedza_helper_STOP = true;
 var pet_helper_STOP = false;
+var kula_helper_STOP = false;
 
 const $css = `
 #blogo_helper {
@@ -38,23 +39,49 @@ const $css = `
   border-radius: 5px;
   color: black;
 }
+#anielskaMenu {
+  display: none;
+  position: absolute;
+  top: 150px;
+  right: 5px;
+  padding: 10px;
+  background: rgba(48, 49, 49, 0.8);
+  border: solid #ffffff7a 1px;
+  border-radius: 5px;
+  z-index: 1000000; /* Wyższa wartość z-index niż .profile */
+}
+#anielskaMenu select {
+  margin: 5px 0;
+  background: #ffffff99;
+  border: solid #6f6f6f 1px;
+  border-radius: 5px;
+  color: black;
+}
 `;
 
 const $html = `
   <div class='blogo_button yasoen_blogo'>AUTO_BŁOGO <b class='blogo_status red'>Off</b></div>
   <div class='blogo_button wiedza_m'>Wiedza M <b class='wiedza_status red'>Off</b></div>
   <div class='blogo_button stwor'>Stwór</div>
+  <div class='blogo_button anielska_kula'>Anielska Kula</div> <!-- Nowy przycisk -->
   <div id="bonusMenu">
     <div><b>Wybierz bonusy:</b></div>
     ${generateBonusSelects(4)}
     <div><b>Wybierz ID Peta:</b></div>
     <select id="petIdSelect">
-      ${generatePetOptions()} <!-- Generuje 100 opcji -->
+      ${generatePetOptions()}
     </select>
     <button id="closeBonusMenu">Zamknij</button>
     <button id="startButton">Start</button>
   </div>
+  <div id="anielskaMenu">
+    <div><b>Wybierz ustawienia Anielskiej Kuli:</b></div>
+    ${generateBonusSelects2(5)} <!-- 5 selektorów -->
+    <button id="closeAnielskaMenu">Zamknij</button>
+    <button id="startAnielska">Start</button>
+  </div>
 `;
+
 
 // Funkcja generująca selektory bonusów
 function generateBonusSelects(count) {
@@ -90,6 +117,78 @@ function generateBonusSelects(count) {
                  <option value="29">% do skuteczności krwawień</option>
                  <option value="30">% do odporności na podpalenia</option>
                  <option value="31">% do skuteczności podpaleń</option>
+                 `;
+  let selects = '';
+  for (let i = 0; i < count; i++) {
+    selects += `<select>${options}</select>`;
+  }
+  return selects;
+}
+// Funkcja generująca selektory bonusów
+function generateBonusSelects2(count) {
+  let options = `<option value="0">Brak</option>
+                 <option value="1">10% do boskiego atrybutu przewodniego</option>
+                 <option value="2">15% do boskiego atrybutu przewodniego</option>
+                 <option value="3">150% do doświadczenia</option>
+                 <option value="4">200% do doświadczenia</option>
+                 <option value="5">150% do efektywności treningu</option>
+                 <option value="6">200% do efektywności treningu</option>
+                 <option value="7">75% do ilości mocy z walk PvM</option>
+                 <option value="8">100% do ilości mocy z walk PvM</option>
+                 <option value="9">75% do ilości zdobywanych kryształów instancji</option>
+                 <option value="10">100% do ilości zdobywanych kryształów instancji</option>
+                 <option value="11">30% do max Punktów Akcji</option>
+                 <option value="12">35% do max Punktów Akcji</option>
+                 <option value="13">40% do obrażeń</option>
+                 <option value="14">45% do obrażeń</option>
+                 <option value="15">40% do obrażeń od technik</option>
+                 <option value="16">45% do obrażeń od technik</option>
+                 <option value="17">30% do przyrostu Punktów Akcji</option>
+                 <option value="18">35% do przyrostu Punktów Akcji</option>
+                 <option value="19">40% do redukcji obrażeń</option>
+                 <option value="20">45% do redukcji obrażeń</option>
+                 <option value="21">40% do sławy za walki w wojnach imperiów</option>
+                 <option value="22">45% do sławy za walki w wojnach imperiów</option>
+                 <option value="23">15% do szansy na 3x więcej doświadczenia za wygrane walki PvM</option>
+                 <option value="24">20% do szansy na 3x więcej doświadczenia za wygrane walki PvM</option>
+                 <option value="25">9% do szansy na połączenie przedmiotów</option>
+                 <option value="26">12% do szansy na połączenie przedmiotów</option>
+                 <option value="27">9% do szansy na spotkanie legendarnych potworów</option>
+                 <option value="28">12% do szansy na spotkanie legendarnych potworów</option>
+                 <option value="29">9% do szansy na ulepszenie przedmiotów</option>
+                 <option value="30">12% do szansy na ulepszenie przedmiotów</option>
+                 <option value="31">9% do szansy na zdobycie przedmiotu z walk PvM</option>
+                 <option value="32">12% do szansy na zdobycie przedmiotu z walk PvM</option>
+                 <option value="33">9% do szansy na zdobycie PSK</option>
+                 <option value="34">12% do szansy na zdobycie PSK</option>
+                 <option value="35">3% do szansy na zdobycie CSK</option>
+                 <option value="36">5% do szansy na zdobycie CSK</option>
+                 <option value="37">15% do wtajemniczenia</option>
+                 <option value="38">20% do wtajemniczenia</option>
+                 <option value="39">40% redukcji obrażeń od technik</option>
+                 <option value="40">45% redukcji obrażeń od technik</option>
+                 <option value="41">9% do szansy na moc z walk PvM</option>
+                 <option value="42">12% do szansy na moc z walk PvM</option>
+                 <option value="43">10% większy limit dzienny Niebieskich Senzu</option>
+                 <option value="44">15% większy limit dzienny Niebieskich Senzu</option>
+                 <option value="45">4% większy mnożnik SSJ</option>
+                 <option value="46">6% większy mnożnik SSJ</option>
+                 <option value="47">10% redukcja obrażeń od efektów czasowych</option>
+                 <option value="48">12% redukcja obrażeń od efektów czasowych</option>
+                 <option value="49">75 minut(y) do czasu trwania Błogosławieństw</option>
+                 <option value="50">100 minut(y) do czasu trwania Błogosławieństw</option>
+                 <option value="51">12 minut(y) krótszy cooldown między walkami PvP</option>
+                 <option value="52">15 minut(y) krótszy cooldown między walkami PvP</option>
+                 <option value="53">50% większa ilość boskiego atrybutu przewodniego z walk PvM</option>
+                 <option value="54">60% większa ilość boskiego atrybutu przewodniego z walk PvM</option>
+                 <option value="55">2% do szansy na ulepszenie przedmiotów M-borna</option>
+                 <option value="56">4% do szansy na ulepszenie przedmiotów M-borna</option>
+                 <option value="57">5% do rezultatu treningu</option>
+                 <option value="58">10% do rezultatu treningu</option>
+                 <option value="59">2% do szansy na podwójnie efektywny bonus za ulepszenie treningu</option>
+                 <option value="60">3% do szansy na podwójnie efektywny bonus za ulepszenie treningu</option>
+                 <option value="61">3% większa szansa na boski atrybut przewodni podczas walk PvM</option>
+                 <option value="62">5% większa szansa na boski atrybut przewodni podczas walk PvM</option>
                  `;
   let selects = '';
   for (let i = 0; i < count; i++) {
@@ -296,3 +395,65 @@ function start2() {
   }
 }
 
+// Obsługa przycisku "Anielska Kula" - otwieranie/zamykanie menu
+$('#blogo_helper .anielska_kula').click(() => {
+  if(kula_helper_STOP){
+    kula_helper_STOP = false;
+  } else {
+    kula_helper_STOP = true;
+  }
+  $('#anielskaMenu').toggle(); // Pokazanie/ukrycie menu
+});
+
+// Obsługa zamknięcia menu Anielskiej Kuli
+$('#closeAnielskaMenu').click(() => {
+  kula_helper_STOP = false;
+  $('#anielskaMenu').hide();
+});
+
+// Obsługa przycisku "Start" dla Anielskiej Kuli
+$('#startAnielska').click(() => {
+  const selectedOptions2 = Array.from($('#anielskaMenu select'))
+    .map(select => {
+      const value = select.value;
+      const optionText = select.options[select.selectedIndex].text;
+      return value !== "0" ? optionText : null;
+    })
+    .filter(option => option !== null);
+
+  console.log("Wybrane bonusy Anielskiej Kuli:", selectedOptions2);
+//
+let intervalId2; // Zmienna dla ID interwału
+
+  // Funkcja do sprawdzania dopasowania
+  function checkAndSendData2() {
+    var table = document.querySelector("table.ss_stats"); // Odwołanie do tabeli
+    var statBonValues = Array.from(table.querySelectorAll("td[id^='stat'][id$='_bon']"))
+      .map(td => td.textContent.trim())
+      .filter(value => value !== "");   // Pomiń puste pola
+      var table2 = document.querySelector("table.ss_stats"); // Odwołanie do tabeli
+      var statValValues = Array.from(table2.querySelectorAll("b[id^='stat'][id$='_val']"))
+        .map(b => b.textContent.trim()) // Pobierz zawartość tekstową
+        .filter(value => value !== ""); // Pomiń puste wartości
+
+      var combinedValues = statValValues.map((val, index) => `${val}${statBonValues[index]}`);
+      console.log(combinedValues);
+
+
+    const allMatch2 = selectedOptions2.every(option => combinedValues.includes(option));
+
+    if (kula_helper_STOP) {
+      if (allMatch2) {
+        console.log("Wszystkie wybrane wartości pasują:", selectedOptions2);
+        clearInterval(intervalId2);
+      } else {
+        console.log("Brak pełnego dopasowania, ponawiam próbę...");
+        GAME.socket.emit('ga', { a:45,type:1,bid:GAME.ball_id });
+      }
+    } else {
+      clearInterval(intervalId2);
+    }
+  }
+  // Rozpocznij sprawdzanie i wysyłanie danych
+  intervalId2 = setInterval(checkAndSendData2, 2000);
+});
