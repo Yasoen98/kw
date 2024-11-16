@@ -437,8 +437,8 @@ let intervalId2; // Zmienna dla ID interwału
       .filter(value => value !== "");   // Pomiń puste pola
       var table2 = document.querySelector("table.ss_stats"); // Odwołanie do tabeli
       var statValValues = Array.from(table2.querySelectorAll("b[id^='stat'][id$='_val']"))
-        .map(b => b.textContent.trim()) // Pobierz zawartość tekstową
-        .filter(value => value !== ""); // Pomiń puste wartości
+        .map(b => b.textContent.trim())
+        .filter(value => value !== ""); // Pomiń puste pola
 
       var combinedValues = statValValues.map((val, index) => `${val}${statBonValues[index]}`);
       console.log(combinedValues);
@@ -459,5 +459,9 @@ let intervalId2; // Zmienna dla ID interwału
     }
   }
   // Rozpocznij sprawdzanie i wysyłanie danych
-  intervalId2 = setInterval(checkAndSendData2, 2000);
+  if(!GAME.is_loading){
+  intervalId2 = setInterval(checkAndSendData2, 1500);
+  } else{
+  return;
+}
 });
