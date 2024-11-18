@@ -477,7 +477,7 @@ let intervalId2; // Zmienna dla ID interwału
 
   }
 
-// Rozpocznij sprawdzanie i wysyłanie danych
+// Rozpocznij sprawdzanie
 if(!GAME.is_loading){
   intervalId2 = setInterval(checkAndSendData2, 1500);
   } else{
