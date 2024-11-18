@@ -417,15 +417,24 @@ $('#closeAnielskaMenu').click(() => {
 
 // Obsługa przycisku "Start" dla Anielskiej Kuli
 $('#startAnielska').click(() => {
-  const selectedOptions2 = Array.from($('#anielskaMenu select'))
+const selectedOptions2 = Array.from($('#anielskaMenu select'))
     .map(select => {
-      const value = select.value;
-      const optionText = select.options[select.selectedIndex].text;
-      return value !== "0" ? optionText : null;
-    })
-    .filter(option => option !== null);
+        const value = select.value;
+        const optionText = select.options[select.selectedIndex].text;
 
-  console.log("Wybrane bonusy Anielskiej Kuli:", selectedOptions2);
+        // Jeśli wartość jest różna od 0 i jest nieparzysta, dodajemy również wartość następnego parzystego numeru
+        if (value !== "0" && parseInt(value, 10) % 2 !== 0) {
+            const nextEvenValue = parseInt(value, 10) + 1; // Dodajemy 1, żeby dostać następny parzysty numer
+            const nextEvenText = select.options[select.selectedIndex + 1]?.text; // Pobieramy tekst następnej opcji
+            // Zwracamy obie opcje, jeśli istnieje następna opcja
+            return [optionText, nextEvenText].filter(Boolean); 
+        }
+
+        // Zwracamy tylko wybraną opcję, jeśli jest parzysta lub 0
+        return value !== "0" ? [optionText] : null;
+    })
+    .filter(option => option !== null); // Usuwamy puste wartości
+
 //
 let intervalId2; // Zmienna dla ID interwału
 
@@ -442,32 +451,34 @@ let intervalId2; // Zmienna dla ID interwału
 
       var combinedValues = statValValues.map((val, index) => `${val}${statBonValues[index]}`);
       console.log(combinedValues);
-
-
-    const allMatch2 = selectedOptions2.every(option => combinedValues.includes(option));
-
-    if (kula_helper_STOP) {
-      if (allMatch2) {
-        console.log("Wszystkie wybrane wartości pasują:", selectedOptions2);
-        clearInterval(intervalId2);
+      const toCheck = selectedOptions2.filter(options => {
+        var contain = false
+        for (const option of options) {
+          if (combinedValues.includes(option)) {
+            contain = true
+            break;
+          }
+        }
+    
+        return !contain 
+      })
+    
+      if(toCheck.length == 0) {
+        if (kula_helper_STOP) {
+          console.log("Wszystkie wybrane wartości pasują:", selectedOptions2);
+          clearInterval(intervalId2);
+        } else {
+          clearInterval(intervalId2);
+        }
       } else {
         console.log("Brak pełnego dopasowania, ponawiam próbę...");
         GAME.socket.emit('ga', { a:45,type:1,bid:GAME.ball_id });
       }
-<<<<<<< Updated upstream
-    } else {
-      clearInterval(intervalId2);
-    }
-  }
-  // Rozpocznij sprawdzanie i wysyłanie danych
-  if(!GAME.is_loading){
-=======
 
   }
 
 // Rozpocznij sprawdzanie i wysyłanie danych
 if(!GAME.is_loading){
->>>>>>> Stashed changes
   intervalId2 = setInterval(checkAndSendData2, 1500);
   } else{
   return;
