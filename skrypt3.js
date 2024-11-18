@@ -454,12 +454,20 @@ let intervalId2; // Zmienna dla ID interwału
         console.log("Brak pełnego dopasowania, ponawiam próbę...");
         GAME.socket.emit('ga', { a:45,type:1,bid:GAME.ball_id });
       }
+<<<<<<< Updated upstream
     } else {
       clearInterval(intervalId2);
     }
   }
   // Rozpocznij sprawdzanie i wysyłanie danych
   if(!GAME.is_loading){
+=======
+
+  }
+
+// Rozpocznij sprawdzanie i wysyłanie danych
+if(!GAME.is_loading){
+>>>>>>> Stashed changes
   intervalId2 = setInterval(checkAndSendData2, 1500);
   } else{
   return;
