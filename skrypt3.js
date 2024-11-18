@@ -401,6 +401,13 @@ function start2() {
 
 // Obsługa przycisku "Anielska Kula" - otwieranie/zamykanie menu
 $('#blogo_helper .anielska_kula').click(() => {
+  //usuwamy okno bonusow z bota jesli istnieje
+let ElementBallResetPanel = document.getElementById("ballResetPanel");
+if (ElementBallResetPanel) {
+    ElementBallResetPanel.remove();
+}
+
+
   if(kula_helper_STOP){
     kula_helper_STOP = false;
   } else {
